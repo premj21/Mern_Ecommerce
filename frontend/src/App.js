@@ -40,17 +40,19 @@ import UsersList from "./component/Admin/UsersList";
 import UpdateUser from "./component/Admin/UpdateUser";
 import ProductReviews from "./component/Admin/ProductReviews";
 import Contact from "./component/layout/Contact/Contact";
-import About from "./component/layout/About/About";
 import NotFound from "./component/layout/Not Found/NotFound";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
-  const [stripeApiKey, setStripeApiKey] = useState("");
+  const [stripeApiKey, setStripeApiKey] = useState(
+    "pk_test_513X7D4SDzTif7h7zhLxHTEAMXOQyHgq11zlaMhMuDXmF3tsP4A74FF93wtLWtJu5veUgJbSalflusgrd5dTnEAK@@ITFEQOK"
+  );
+
+   
 
   async function getStripeApiKey() {
     const { data } = await axios.get("/api/v1/stripeapikey");
-
     setStripeApiKey(data.stripeApiKey);
   }
 
@@ -90,7 +92,6 @@ function App() {
 
         <Route exact path="/contact" component={Contact} />
 
-        <Route exact path="/about" component={About} />
 
         <ProtectedRoute exact path="/account" component={Profile} />
 
@@ -109,7 +110,6 @@ function App() {
         <Route exact path="/login" component={LoginSignUp} />
 
         <Route exact path="/cart" component={Cart} />
-
         <ProtectedRoute exact path="/shipping" component={Shipping} />
 
         <ProtectedRoute exact path="/success" component={OrderSuccess} />
