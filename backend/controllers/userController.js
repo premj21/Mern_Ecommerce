@@ -8,11 +8,8 @@ const cloudinary = require("cloudinary");
 
 // Register a User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-  const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    folder: "avatars",
-    width: 150,
-    crop: "scale",
-  });
+ 
+  const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar);
   const { name, email, password } = req.body;
   const user = await User.create({
     name,
@@ -37,7 +34,6 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   }
 
   const user = await User.findOne({ email }).select("+password");
-
   if (!user) {
     return next(new ErrorHander("Invalid email or password", 401));
   }
@@ -47,7 +43,6 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   if (!isPasswordMatched) {
     return next(new ErrorHander("Invalid email or password", 401));
   }
-
   sendToken(user, 200, res);
 });
 
@@ -142,7 +137,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 // Get User Detail
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id);
-
+  
   res.status(200).json({
     success: true,
     user,
