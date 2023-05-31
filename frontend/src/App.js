@@ -66,6 +66,7 @@ function App() {
     store.dispatch(loadUser());
     getStripeApiKey();
   }, []);
+   window.addEventListener("contextmenu", (e) => e.preventDefault());
   return (
     <Router>
       <Header />
